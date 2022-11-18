@@ -1,63 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="time-tracking.css">
-    <title>Time Tracking Dashboard</title>
-</head>
-<body>
-    <main class="main-container">
-        <section class="first-section">
+import data from  './data.json' assert {type:'json'};
+console.log(data)
+
+let bgColors = [
+    'hsl(15, 100%, 70%)',
+    'hsl(195, 74%, 62%)',
+    'hsl(348, 100%, 68%)',
+    'hsl(145, 58%, 55%)',
+    'hsl(264, 64%, 52%)',
+    'hsl(43, 84%, 65%)',
+]
+    
 
 
-            <div class="main-card">
-                <div class="main-card__user">
-                    <img class="main-card__image" src="/images/image-jeremy.png" alt="user-img">
-                    <div>
-                        <p class="main-card__title">Report for</p>
-                        <p class="main-card__name">Jeremy Robson</p>
-                    </div>
-                </div>
+let daylyArray = data.map(item => item.timeframes.daily)
+let weeklyArray = data.map(item => item.timeframes.weekly)
+let monthlyArray = data.map(item => item.timeframes.monthly)
 
 
-                <div class="main-card__dates">
-                    <p id="daily" class="main-card__frequency main-card__frequency--active">Daily</p>
-                    <p id="weekly" class="main-card__frequency">Weekly</p>
-                    <p id="monthly" class="main-card__frequency">Monthly</p>
-                </div>
-            </div>
+console.log(daylyArray)
 
-        </section>
+let dailyBtn = document.querySelector('#daily');
+let weeklyBtn = document.querySelector('#weekly');
+let monthlyBtn = document.querySelector('#monthly');
 
-        <section class="second-section">
-<!-- 
-            <div class="card">
-                <div class="card__background" style="background-color: red;">
-                    <img class="card__image" src="/images/icon-work.svg" alt="bag">
+let secondSection = document.querySelector('.second-section');
+
+drawElements(daylyArray)
+
+dailyBtn.addEventListener('click', ()=>{
+    drawElements(daylyArray)
+});
+
+weeklyBtn.addEventListener('click', ()=>{
+    drawElements(weeklyArray)
+});
+
+monthlyBtn.addEventListener('click', ()=>{
+    drawElements(monthlyArray)
+});
+
+function drawElements(array){
+    secondSection.innerHTML = '';
+    array.forEach((element, index) =>{
+        // console.log(element)
+
+        let title = data[index].title;
+        let titleLowerCase = title.toLocaleLowerCase()
+
+        if(titleLowerCase += 'self care'){
+            titleLowerCase = 'self-care'
+        }
+
+        console.log(title)
+        console.log(titleLowerCase)
+
+
+        secondSection.innerHTML += `
+        <div class="card">
+                <div class="card__background" style="background-color: ${bgColors[index]};>
+                    <img class="card__image" src="/images/icon-${titleLowerCase}.svg" alt="bag">
                 </div>
                 <div class="card__details">
                     <div class="card__activity">
-                        <p class="card__title">Work</p>
+                        <p class="card__title">${data[index].title}</p>
                         <img class="card__dots" src="/images/icon-ellipsis.svg" alt="three dots">
                     </div>
                     <div class="card__time">
-                        <p class="card__hour">5hrs</p>
-                        <p class="card__previous">Previous - 7hrs</p>
+                        <p class="card__hour">${element.current}hrs</p>
+                        <p class="card__previous">Previous - ${element.previous}hrs</p>
                     </div>
                 </div>
-            </div> -->
-
-          
-
-        </section>
-    </main>
-
-    <footer class="attribution">
-        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-        Coded by <a href="https://github.com/Rod-aDev" target="_blank">Rod-aDev</a>.
-      </footer>
-      <script type="module" src="/js/time-tracking.js"></script>
-</body>
-</html>
+            </div>
+            `
+    } )
+}

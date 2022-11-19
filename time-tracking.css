@@ -46,7 +46,7 @@ body{
 }
 
 .main-card__image{
-    width: 72px;
+    width: 71px;
     margin-right: 10px;
     border: 3px solid var(--White);
     border-radius: 50%;
